@@ -20,7 +20,7 @@ import { connect } from '../api/web3modal'
 const BASIC_ADDRESS_REGEX = /^(0x)?[0-9a-f]{40}$/i
 const SAME_CASE_ADDRESS_REGEX = /^(0x)?([0-9a-f]{40}|[0-9A-F]{40})$/
 const ADDRESS_LENGTH = 40
-
+export const DNSREGISTRAR_ADDRESS = '0x82994379b1ec951c8e001dfcec2a7ce8f4f39b97'
 export const addressUtils = {
   isChecksumAddress(address) {
     // Check each case
@@ -112,10 +112,7 @@ export const parseSearchTerm = async term => {
   }
   console.log('** parseSearchTerm', { ens })
   const address = await ens.getOwner(tld)
-  return _parseSearchTerm(
-    term,
-    parseInt(address, 16) !== 0 || tld === 'reverse'
-  )
+  return _parseSearchTerm(term, true)
 }
 
 export function humaniseName(name) {

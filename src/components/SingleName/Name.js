@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 
 import { useMediaMin } from 'mediaQuery'
 import { EMPTY_ADDRESS } from '../../utils/records'
+import { DNSREGISTRAR_ADDRESS } from '../../utils/utils'
 
 import { Title } from '../Typography/Basic'
 import TopBar from '../Basic/TopBar'
@@ -15,6 +16,7 @@ import Tabs from './Tabs'
 import { useAccount } from '../QueryAccount'
 import NameContainer from '../Basic/MainContainer'
 import Copy from '../CopyToClipboard/'
+import useNetworkInfo from '../NetworkInformation/useNetworkInfo'
 
 const Owner = styled('div')`
   color: #ccd4da;
@@ -29,11 +31,11 @@ const RightBar = styled('div')`
 const Favourite = styled(DefaultFavourite)``
 
 function isRegistrationOpen(available, parent, isDeedOwner) {
-  return parent === 'eth' && !isDeedOwner && available
+  return parent === !isDeedOwner && available
 }
 
 function isDNSRegistrationOpen(domain) {
-  return domain.isDNSRegistrar && domain.owner === EMPTY_ADDRESS
+  return !!domain.isDNSRegistrar
 }
 
 function isOwnerOfDomain(domain, account) {
@@ -51,12 +53,15 @@ function isOwnerOfParentDomain(domain, account) {
 }
 
 function Name({ details: domain, name, pathname, type, refetch }) {
+  const { networkId } = useNetworkInfo()
   const { t } = useTranslation()
   const smallBP = useMediaMin('small')
   const percentDone = 0
   const account = useAccount()
   const isOwner = isOwnerOfDomain(domain, account)
   const isOwnerOfParent = isOwnerOfParentDomain(domain, account)
+  let ownerType,
+    registrarAddress = domain.parentOwner
   const isDeedOwner = domain.deedOwner === account
   const isRegistrant = !domain.available && domain.registrant === account
   const registrationOpen = isRegistrationOpen(
@@ -66,7 +71,6 @@ function Name({ details: domain, name, pathname, type, refetch }) {
   )
   const preferredTab = registrationOpen ? 'register' : 'details'
 
-  let ownerType
   if (isDeedOwner || isRegistrant) {
     ownerType = 'Registrant'
   } else if (isOwner) {
@@ -75,9 +79,17 @@ function Name({ details: domain, name, pathname, type, refetch }) {
   let containerState
   if (isDNSRegistrationOpen(domain)) {
     containerState = 'Open'
+    if (networkId === 1) {
+      registrarAddress = DNSREGISTRAR_ADDRESS
+    }
   } else {
     containerState = isOwner ? 'Yours' : domain.state
   }
+  console.log('***Name', {
+    networkId,
+    isDNSRegistrationOpen: isDNSRegistrationOpen(domain),
+    containerState
+  })
   return (
     <>
       <NameContainer state={containerState}>
@@ -132,6 +144,7 @@ function Name({ details: domain, name, pathname, type, refetch }) {
         {isDNSRegistrationOpen(domain) ? (
           <DNSNameRegister
             domain={domain}
+            registrarAddress={registrarAddress}
             pathname={pathname}
             refetch={refetch}
             account={account}

@@ -16,7 +16,7 @@ import { formatsByName } from '@ensdomains/address-encoder'
 import isEqual from 'lodash/isEqual'
 import modeNames from '../modes'
 import { sendHelper, sendHelperArray } from '../resolverUtils'
-import { emptyAddress } from '../../utils/utils'
+import { emptyAddress, DNSREGISTRAR_ADDRESS } from '../../utils/utils'
 import TEXT_RECORD_KEYS from 'constants/textRecords'
 import COIN_LIST_KEYS from 'constants/coinList'
 import {
@@ -58,7 +58,7 @@ async function getParent(name) {
 async function getRegistrarEntry(name) {
   const registrar = getRegistrar()
   const nameArray = name.split('.')
-  if (nameArray.length > 3 || nameArray[1] !== 'eth') {
+  if (nameArray.length > 3 || nameArray[1] !== 'badass') {
     return {}
   }
 
@@ -105,11 +105,17 @@ async function getDNSEntryDetails(name) {
   const ens = getENS()
   const registrar = getRegistrar()
   const nameArray = name.split('.')
-  if (nameArray.length > 3) return {}
+  const networkId = await getNetworkId()
+  if (nameArray.length > 2) return {}
 
   let tld = nameArray[1]
   let owner
-  let tldowner = (await ens.getOwner(tld)).toLocaleLowerCase()
+  let tldowner
+  if (networkId === 1) {
+    tldowner = DNSREGISTRAR_ADDRESS
+  } else {
+    tldowner = (await ens.getOwner(tld)).toLocaleLowerCase()
+  }
   try {
     owner = (await ens.getOwner(name)).toLocaleLowerCase()
   } catch {
@@ -167,7 +173,8 @@ function adjustForShortNames(node) {
   const { label, parent } = node
 
   // return original node if is subdomain or not eth
-  if (nameArray.length > 2 || parent !== 'eth' || label.length > 6) return node
+  if (nameArray.length > 2 || parent !== 'badass' || label.length > 6)
+    return node
 
   //if the auctions are over
   if (new Date() > new Date(1570924800000)) {
@@ -370,7 +377,7 @@ const resolvers = {
       }
 
       async function calculateIsPublicResolverReady() {
-        const publicResolver = await ens.getAddress('resolver.eth')
+        const publicResolver = '0x4976fb03c32e5b8cfe2b6ccb31c09ba78ebaba41' //await ens.getAddress('resolver.eth')
         return !OLD_RESOLVERS.map(a => a.toLowerCase()).includes(publicResolver)
       }
 
@@ -853,7 +860,7 @@ const resolvers = {
 
       // get public resolver
       try {
-        const publicResolver = await ens.getAddress('resolver.eth')
+        const publicResolver = '0x4976fb03c32e5b8cfe2b6ccb31c09ba78ebaba41' //await ens.getAddress('resolver.eth')
         const resolver = await ens.getResolver(name)
         const isOldContentResolver = calculateIsOldContentResolver(resolver)
 
