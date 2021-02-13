@@ -58,7 +58,7 @@ async function getParent(name) {
 async function getRegistrarEntry(name) {
   const registrar = getRegistrar()
   const nameArray = name.split('.')
-  if (nameArray.length > 3 || nameArray[1] !== 'badass') {
+  if (nameArray.length > 3 || nameArray[1] !== process.env.REACT_APP_ENS_TLD) {
     return {}
   }
 
@@ -173,7 +173,11 @@ function adjustForShortNames(node) {
   const { label, parent } = node
 
   // return original node if is subdomain or not eth
-  if (nameArray.length > 2 || parent !== 'badass' || label.length > 6)
+  if (
+    nameArray.length > 2 ||
+    parent !== process.env.REACT_APP_ENS_TLD ||
+    label.length > 6
+  )
     return node
 
   //if the auctions are over

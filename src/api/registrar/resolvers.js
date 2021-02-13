@@ -100,12 +100,12 @@ const resolvers = {
         }
 
         if (modeNames[state] === 'Owned') {
-          owner = await ens.getOwner(`${name}.badass`)
+          owner = await ens.getOwner(`${name}.${process.env.REACT_APP_ENS_TLD}`)
         }
 
         const data = {
           domainState: {
-            name: `${name}.badass`,
+            name: `${name}.${process.env.REACT_APP_ENS_TLD}`,
             state: modeNames[state],
             registrationDate,
             revealDate,

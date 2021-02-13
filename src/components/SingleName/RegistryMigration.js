@@ -99,7 +99,7 @@ export default function RegistryMigration({
           : dnssecmode
           ? dnssecMigrateMessage
           : defaultMessage}
-        {domain.parent !== 'badass' && !dnssecmode && (
+        {domain.parent !== process.env.REACT_APP_ENS_TLD && !dnssecmode && (
           <SubWarning>{t('registrymigration.donotaccept')}</SubWarning>
         )}
       </WarningContent>
