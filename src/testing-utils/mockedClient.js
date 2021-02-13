@@ -6,7 +6,7 @@ const defaultMocks = {
     //subDomainState = () => [],
     domainState() {
       return {
-        name: 'vitalik.eth',
+        name: 'vitalik.badass',
         state: 'Forbidden',
         __typename: 'NodeState'
       }

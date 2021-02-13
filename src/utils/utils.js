@@ -20,6 +20,7 @@ import { connect } from '../api/web3modal'
 const BASIC_ADDRESS_REGEX = /^(0x)?[0-9a-f]{40}$/i
 const SAME_CASE_ADDRESS_REGEX = /^(0x)?([0-9a-f]{40}|[0-9A-F]{40})$/
 const ADDRESS_LENGTH = 40
+// BADASS TODO: replace dnssregistrar with envvar
 export const DNSREGISTRAR_ADDRESS = '0x82994379b1ec951c8e001dfcec2a7ce8f4f39b97'
 export const addressUtils = {
   isChecksumAddress(address) {
@@ -187,15 +188,13 @@ export function isRecordEmpty(value) {
 
 export async function handleNetworkChange() {
   let client, networkId
+  const ensAddress = process.env.REACT_APP_ENS_ADDRESS
   try {
-    if (
-      process.env.REACT_APP_STAGE === 'local' &&
-      process.env.REACT_APP_ENS_ADDRESS
-    ) {
+    if (process.env.REACT_APP_STAGE === 'local' && ensAddress) {
       await setup({
         reloadOnAccountsChange: true,
         customProvider: 'http://localhost:8545',
-        ensAddress: process.env.REACT_APP_ENS_ADDRESS
+        ensAddress
       })
       let labels = window.localStorage['labels']
         ? JSON.parse(window.localStorage['labels'])

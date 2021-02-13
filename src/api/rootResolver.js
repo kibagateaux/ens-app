@@ -32,11 +32,11 @@ const rootDefaults = {
 const resolvers = {
   Web3: {
     accounts: () => {
-      //if (!isReadOnly()) {
-      return getAccounts()
-      //} else {
-      //  return emptyAddress
-      // }
+      if (!isReadOnly()) {
+        return getAccounts()
+      } else {
+        return emptyAddress
+      }
     },
     networkId: async () => {
       const networkId = await getNetworkId()

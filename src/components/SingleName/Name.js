@@ -31,6 +31,7 @@ const RightBar = styled('div')`
 const Favourite = styled(DefaultFavourite)``
 
 function isRegistrationOpen(available, parent, isDeedOwner) {
+  console.log('is registration open', parent === !isDeedOwner)
   return parent === !isDeedOwner && available
 }
 
@@ -90,6 +91,12 @@ function Name({ details: domain, name, pathname, type, refetch }) {
     isDNSRegistrationOpen: isDNSRegistrationOpen(domain),
     containerState
   })
+
+  console.log(
+    'isDNSRegistrationOpen(domain)',
+    isDNSRegistrationOpen(domain),
+    domain
+  )
   return (
     <>
       <NameContainer state={containerState}>

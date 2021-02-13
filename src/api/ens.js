@@ -14,7 +14,7 @@ export async function setup({
   enforceReadOnly,
   enforceReload,
   customProvider,
-  ensAddress
+  ensAddress = process.env.REACT_APP_ENS_ADDRESS
 }) {
   let option = {
     reloadOnAccountsChange,
