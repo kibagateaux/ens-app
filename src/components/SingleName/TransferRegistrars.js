@@ -120,7 +120,7 @@ function displayMigrationDiralogue({
   confirmed
 }) {
   return (
-    (parent === process.env.REACT_APP_ENS_TLD &&
+    (parent === process.env.REACT_APP_REGISTRAR_TLD &&
       (isDeedOwner && !isNewRegistrar)) ||
     confirmed
   )

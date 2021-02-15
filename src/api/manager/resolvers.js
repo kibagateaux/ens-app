@@ -58,7 +58,10 @@ async function getParent(name) {
 async function getRegistrarEntry(name) {
   const registrar = getRegistrar()
   const nameArray = name.split('.')
-  if (nameArray.length > 3 || nameArray[1] !== process.env.REACT_APP_ENS_TLD) {
+  if (
+    nameArray.length > 3 ||
+    nameArray[1] !== process.env.REACT_APP_REGISTRAR_TLD
+  ) {
     return {}
   }
 
@@ -175,7 +178,7 @@ function adjustForShortNames(node) {
   // return original node if is subdomain or not eth
   if (
     nameArray.length > 2 ||
-    parent !== process.env.REACT_APP_ENS_TLD ||
+    parent !== process.env.REACT_APP_REGISTRAR_TLD ||
     label.length > 6
   )
     return node
@@ -381,7 +384,8 @@ const resolvers = {
       }
 
       async function calculateIsPublicResolverReady() {
-        const publicResolver = '0x4976fb03c32e5b8cfe2b6ccb31c09ba78ebaba41' //await ens.getAddress('resolver.eth')
+        // const publicResolver = await ens.getAddress('resolver.eth')
+        const publicResolver = '0x4976fb03c32e5b8cfe2b6ccb31c09ba78ebaba41' // .badass resolver
         return !OLD_RESOLVERS.map(a => a.toLowerCase()).includes(publicResolver)
       }
 

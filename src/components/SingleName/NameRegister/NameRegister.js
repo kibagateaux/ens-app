@@ -90,6 +90,7 @@ const NameRegister = ({
   const { data: { getMaximumCommitmentAge } = {} } = useQuery(
     GET_MAXIMUM_COMMITMENT_AGE
   )
+  console.log('commitment age', useQuery(GET_MAXIMUM_COMMITMENT_AGE))
   if (block) {
     now = moment(block.timestamp * 1000)
   }

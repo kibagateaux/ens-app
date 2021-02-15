@@ -247,7 +247,7 @@ function DetailsContainer({
         ''
       )}
       <OwnerFields outOfSync={outOfSync}>
-        {domain.parent === process.env.REACT_APP_ENS_TLD &&
+        {domain.parent === process.env.REACT_APP_REGISTRAR_TLD &&
         domain.isNewRegistrar ? (
           <>
             <DetailsItemEditable
@@ -280,7 +280,7 @@ function DetailsContainer({
               copyToClipboard={true}
             />
           </>
-        ) : domain.parent === process.env.REACT_APP_ENS_TLD &&
+        ) : domain.parent === process.env.REACT_APP_REGISTRAR_TLD &&
           !domain.isNewRegistrar ? (
           <>
             <DetailsItem uneditable>
@@ -601,7 +601,7 @@ function NameDetails({
   const isAnAbsolutePath = pathname.split('/').length > 3
 
   if (
-    domain.parent === process.env.REACT_APP_ENS_TLD &&
+    domain.parent === process.env.REACT_APP_REGISTRAR_TLD &&
     tab === 'register' &&
     !isAnAbsolutePath
   ) {
@@ -615,7 +615,7 @@ function NameDetails({
       />
     )
   } else if (
-    domain.parent === process.env.REACT_APP_ENS_TLD &&
+    domain.parent === process.env.REACT_APP_REGISTRAR_TLD &&
     tab === 'details' &&
     !isAnAbsolutePath
   ) {
@@ -643,7 +643,7 @@ function NameDetails({
       />
     )
   } else if (
-    domain.parent !== process.env.REACT_APP_ENS_TLD &&
+    domain.parent !== process.env.REACT_APP_REGISTRAR_TLD &&
     !isAnAbsolutePath
   ) {
     //subdomain or dns

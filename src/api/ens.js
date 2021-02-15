@@ -29,6 +29,7 @@ export async function setup({
   const { ens: ensInstance, registrar: registrarInstance } = await setupENS(
     option
   )
+  console.log('App completed etting up ENS: ', ensInstance, registrarInstance)
   ens = ensInstance
   registrar = registrarInstance
   ensRegistryAddress = ensAddress

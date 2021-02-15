@@ -51,6 +51,7 @@ const resolvers = {
     ) {
       try {
         const registrar = getRegistrar()
+        console.log('registrar', registrar)
         const commitment = await registrar.checkCommitment(label, secret)
         return parseInt(commitment)
       } catch (e) {
@@ -100,12 +101,14 @@ const resolvers = {
         }
 
         if (modeNames[state] === 'Owned') {
-          owner = await ens.getOwner(`${name}.${process.env.REACT_APP_ENS_TLD}`)
+          owner = await ens.getOwner(
+            `${name}.${process.env.REACT_APP_REGISTRAR_TLD}`
+          )
         }
 
         const data = {
           domainState: {
-            name: `${name}.${process.env.REACT_APP_ENS_TLD}`,
+            name: `${name}.${process.env.REACT_APP_REGISTRAR_TLD}`,
             state: modeNames[state],
             registrationDate,
             revealDate,

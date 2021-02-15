@@ -1,7 +1,7 @@
 import { validateName } from '../utils'
 
 test('test valid names', () => {
-  const tld = process.env.REACT_APP_ENS_TLD
+  const tld = process.env.REACT_APP_REGISTRAR_TLD
   expect(validateName('vitalik')).toBe('vitalik')
   expect(validateName('Vitalik')).toBe('vitalik')
   expect(validateName('Vitalik.' + tld)).toBe('vitalik.' + tld)
