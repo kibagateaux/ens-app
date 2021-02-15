@@ -31,8 +31,17 @@ const RightBar = styled('div')`
 const Favourite = styled(DefaultFavourite)``
 
 function isRegistrationOpen(available, parent, isDeedOwner) {
-  console.log('is registration open', parent === !isDeedOwner)
-  return parent === !isDeedOwner && available
+  console.log(
+    'calc can register',
+    available,
+    isDeedOwner,
+    parent,
+    parent === !isDeedOwner
+  )
+  // if .badass is not the current user and domain is available
+  return (
+    parent === process.env.REACT_APP_REGISTRAR_TLD && !isDeedOwner && available
+  )
 }
 
 function isDNSRegistrationOpen(domain) {
@@ -70,6 +79,8 @@ function Name({ details: domain, name, pathname, type, refetch }) {
     domain.parent,
     isDeedOwner
   )
+
+  console.log('is registration open', domain.deedOwner, registrationOpen)
   const preferredTab = registrationOpen ? 'register' : 'details'
 
   if (isDeedOwner || isRegistrant) {
@@ -92,11 +103,6 @@ function Name({ details: domain, name, pathname, type, refetch }) {
     containerState
   })
 
-  console.log(
-    'isDNSRegistrationOpen(domain)',
-    isDNSRegistrationOpen(domain),
-    domain
-  )
   return (
     <>
       <NameContainer state={containerState}>

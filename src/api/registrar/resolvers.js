@@ -51,8 +51,9 @@ const resolvers = {
     ) {
       try {
         const registrar = getRegistrar()
-        console.log('registrar', registrar)
+        console.log('registrar', registrar, registrar.checkCommitment)
         const commitment = await registrar.checkCommitment(label, secret)
+        console.log('commitment', label, secret, commitment)
         return parseInt(commitment)
       } catch (e) {
         console.log(e)
