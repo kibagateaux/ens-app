@@ -50,7 +50,7 @@ describe('saveLabel', () => {
 
 describe('saveName', () => {
   test('should save all labels to localStorage', () => {
-    const name = 'vitalik.badass'
+    const name = 'vitalik.' + process.env.REACT_APP_REGISTRAR_TLD
     const nameArray = ['vitalik', process.env.REACT_APP_REGISTRAR_TLD]
     const hashes = [
       '0xaf2caa1c2ca1d027f1ac823b529d0a67cd144264b2789fa2ea4d63a67c7103cc',
@@ -65,7 +65,7 @@ describe('saveName', () => {
   })
 
   test('should save all labels to localStorage', () => {
-    const name = 'awesome.vitalik.eth'
+    const name = 'awesome.vitalik.' + process.env.REACT_APP_REGISTRAR_TLD
     const nameArray = [
       'awesome',
       'vitalik',

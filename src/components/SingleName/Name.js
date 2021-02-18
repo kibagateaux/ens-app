@@ -72,12 +72,6 @@ function Name({ details: domain, name, pathname, type, refetch }) {
     isDeedOwner
   )
 
-  console.log(
-    'is registration open',
-    domain,
-    domain.deedOwner,
-    registrationOpen
-  )
   const preferredTab = registrationOpen ? 'register' : 'details'
 
   if (isDeedOwner || isRegistrant) {

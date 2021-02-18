@@ -86,8 +86,6 @@ const NameRegister = ({
     }
   )
 
-  // console.log('timestamp', waitBlockTimestamp);
-
   const account = useAccount()
   const { data: { getBalance } = {} } = useQuery(GET_BALANCE, {
     variables: { address: account }

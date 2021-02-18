@@ -12,7 +12,6 @@ import {
   labelhash,
   utils
 } from '@ensdomains/ui'
-console.log('iam label', labelhash('iam'))
 import { formatsByName } from '@ensdomains/address-encoder'
 import isEqual from 'lodash/isEqual'
 import modeNames from '../modes'
@@ -176,7 +175,7 @@ function adjustForShortNames(node) {
   const nameArray = node.name.split('.')
   const { label, parent } = node
 
-  // return original node if is subdomain or not eth
+  // return original node if is subdomain or not TLD
   if (
     nameArray.length > 2 ||
     parent !== process.env.REACT_APP_REGISTRAR_TLD ||
@@ -385,8 +384,11 @@ const resolvers = {
       }
 
       async function calculateIsPublicResolverReady() {
-        // const publicResolver = await ens.getAddress('resolver.eth')
-        const publicResolver = '0x4976fb03c32e5b8cfe2b6ccb31c09ba78ebaba41' // .badass resolver
+        const publicResolver =
+          process.env.REACT_APP_TLD_RESOLVER ||
+          (await ens.getAddress(
+            'resolver.' + proces.env.REACT_APP_REGISTRAR_TLD
+          ))
         return !OLD_RESOLVERS.map(a => a.toLowerCase()).includes(publicResolver)
       }
 
