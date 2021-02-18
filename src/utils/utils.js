@@ -190,6 +190,10 @@ export async function handleNetworkChange() {
   let client, networkId
   const ensAddress = process.env.REACT_APP_ENS_ADDRESS
   try {
+    console.log(
+      'initiating network connection for app mode : ',
+      process.env.REACT_APP_STAGE
+    )
     if (process.env.REACT_APP_STAGE === 'local' && ensAddress) {
       await setup({
         reloadOnAccountsChange: true,
@@ -203,7 +207,7 @@ export async function handleNetworkChange() {
         'labels',
         JSON.stringify({
           ...labels,
-          ...JSON.parse(process.env.REACT_APP_LABELS)
+          ...JSON.parse(process.env.REACT_APP_LABELS || '{}')
         })
       )
     } else {

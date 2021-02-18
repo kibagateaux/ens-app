@@ -59,6 +59,7 @@ const ProgressRecorder = ({
   let savedStepIndex = 0
   let savedStep, isBehind
   savedStep = Store.get(label)
+  // console.log('Progress recorder', secret, savedStep && savedStep.secret);
   if (!secret) {
     if (savedStep && savedStep.secret) {
       setSecret(savedStep.secret)
@@ -98,6 +99,7 @@ const ProgressRecorder = ({
 
   switch (step) {
     case 'PRICE_DECISION':
+      console.log('price confirmed', label, secret)
       if (!savedStep) {
         Store.set(label, { step, secret })
       } else {
@@ -113,6 +115,7 @@ const ProgressRecorder = ({
       }
       break
     case 'COMMIT_CONFIRMED':
+      // console.log('commit confirmed', label, secret);
       Store.set(label, {
         step,
         secret,

@@ -77,11 +77,17 @@ const NameRegister = ({
   const { loading: gasPriceLoading, price: gasPrice } = useGasPrice()
   const { block } = useBlock()
   const [invalid, setInvalid] = useState(false)
-  const { data: { waitBlockTimestamp } = {} } = useQuery(WAIT_BLOCK_TIMESTAMP, {
-    variables: {
-      waitUntil
+  const { data: { waitBlockTimestamp = Date.now() } = {} } = useQuery(
+    WAIT_BLOCK_TIMESTAMP,
+    {
+      variables: {
+        waitUntil
+      }
     }
-  })
+  )
+
+  // console.log('timestamp', waitBlockTimestamp);
+
   const account = useAccount()
   const { data: { getBalance } = {} } = useQuery(GET_BALANCE, {
     variables: { address: account }
@@ -90,7 +96,6 @@ const NameRegister = ({
   const { data: { getMaximumCommitmentAge } = {} } = useQuery(
     GET_MAXIMUM_COMMITMENT_AGE
   )
-  console.log('commitment age', useQuery(GET_MAXIMUM_COMMITMENT_AGE))
   if (block) {
     now = moment(block.timestamp * 1000)
   }
@@ -110,7 +115,6 @@ const NameRegister = ({
       }
     }
   )
-
   ProgressRecorder({
     checkCommitment,
     domain,

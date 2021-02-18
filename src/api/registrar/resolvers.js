@@ -51,9 +51,13 @@ const resolvers = {
     ) {
       try {
         const registrar = getRegistrar()
-        console.log('registrar', registrar, registrar.checkCommitment)
         const commitment = await registrar.checkCommitment(label, secret)
-        console.log('commitment', label, secret, commitment)
+        console.log(
+          'API: CHECK_COMMITMENT',
+          registrar,
+          parseInt(commitment),
+          commitment
+        )
         return parseInt(commitment)
       } catch (e) {
         console.log(e)
@@ -63,13 +67,15 @@ const resolvers = {
   Mutation: {
     async commit(_, { label, secret }, { cache }) {
       const registrar = getRegistrar()
+      console.log('MUTATION: COMMIT', registrar, label, secret)
       const tx = await registrar.commit(label, secret)
+      console.log('commit tx', tx)
       return sendHelper(tx)
     },
     async register(_, { label, duration, secret }) {
       const registrar = getRegistrar()
+      console.log('MUTATION: REGISTER', registrar, duration, label, secret)
       const tx = await registrar.register(label, duration, secret)
-
       return sendHelper(tx)
     },
     async reclaim(_, { name, address }) {

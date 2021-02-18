@@ -12,6 +12,7 @@ import {
   labelhash,
   utils
 } from '@ensdomains/ui'
+console.log('iam label', labelhash('iam'))
 import { formatsByName } from '@ensdomains/address-encoder'
 import isEqual from 'lodash/isEqual'
 import modeNames from '../modes'
