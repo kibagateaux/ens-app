@@ -197,6 +197,30 @@ function AddressRecordInput({
   )
 }
 
+function ARecordInput({
+  selectedRecord,
+  updateValue,
+  newValue,
+  selectedKey,
+  setSelectedKey,
+  isValid,
+  isInvalid
+}) {
+  return (
+    <>
+      <DetailsItemInput
+        newValue={newValue}
+        handleChange={setSelectedKey}
+        dataType={selectedRecord ? selectedRecord.value : null}
+        updateValue={updateValue}
+        isValid={isValid}
+        isInvalid={isInvalid}
+        placeholder={'Enter an IP address to point your domain at'}
+      />
+    </>
+  )
+}
+
 function Editable({
   domain,
   emptyRecords,
@@ -212,7 +236,7 @@ function Editable({
   const [selectedRecord, selectRecord] = useState(null)
   const [selectedKey, setSelectedKey] = useState(null)
   const { state, actions } = useEditable()
-
+  console.log('editing - ', selectedRecord, selectedKey)
   const handleChange = selectedRecord => {
     selectRecord(selectedRecord)
   }
@@ -254,25 +278,34 @@ function Editable({
         newValue,
         records
       })
-      if (selectedRecord.value === 'content') {
-        return newValue
-      } else {
-        const exists = records[selectedRecord.value].find(
-          record => record.key === selectedKey.value
-        )
-
-        if (exists) {
-          return records[selectedRecord.value].map(record =>
-            record.key === selectedKey.value
-              ? { ...record, value: newValue }
-              : record
+      switch (selectedRecord.value) {
+        case 'textRecords':
+          const exists = records[selectedRecord.value].find(
+            record => record && record.key === selectedKey.value
           )
-        } else {
-          return [
-            ...records[selectedRecord.value],
-            { key: selectedKey.value, value: newValue }
-          ]
-        }
+
+          if (exists) {
+            return records[selectedRecord.value].map(record =>
+              record.key === selectedKey.value
+                ? { ...record, value: newValue }
+                : record
+            )
+          } else {
+            return [
+              ...records[selectedRecord.value],
+              { key: selectedKey.value, value: newValue }
+            ]
+          }
+        case 'aRecords':
+          console.log(
+            'Add text records',
+            records[selectedRecord.value],
+            newValue
+          )
+          return [...records[selectedRecord.value], newValue]
+        case 'content':
+        default:
+          return newValue
       }
     }
 
@@ -369,6 +402,16 @@ function Editable({
               />
             ) : selectedRecord && selectedRecord.value === 'textRecords' ? (
               <TextRecordInput
+                selectedRecord={selectedRecord}
+                newValue={newValue}
+                updateValue={updateValue}
+                selectedKey={selectedKey}
+                setSelectedKey={setSelectedKey}
+                isValid={isValid}
+                isInvalid={isInvalid}
+              />
+            ) : selectedRecord && selectedRecord.value === 'aRecords' ? (
+              <ARecordInput
                 selectedRecord={selectedRecord}
                 newValue={newValue}
                 updateValue={updateValue}

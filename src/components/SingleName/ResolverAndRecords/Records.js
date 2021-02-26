@@ -57,6 +57,10 @@ const ConfirmBox = styled('div')`
 
 const RECORDS = [
   {
+    label: 'A Records',
+    value: 'aRecords'
+  },
+  {
     label: 'Addresses',
     value: 'coins'
   },
@@ -240,6 +244,17 @@ export default function Records({
     }
   )
 
+  const { loading: aRecordsLoading, data: dataARecords } = useQuery(
+    GET_A_RECORDS,
+    {
+      variables: {
+        name: domain.name,
+        keys: 'A'
+      },
+      skip: !dataResolver
+    }
+  )
+
   function processRecords(records, placeholder) {
     const nonDuplicatePlaceholderRecords = placeholder.filter(
       record => !records.find(r => record === r.key)
@@ -252,8 +267,12 @@ export default function Records({
       }))
     ]
   }
-
+  const isLoading = textRecordsLoading || addressesLoading || aRecordsLoading
   const initialRecords = {
+    aRecords:
+      dataARecords && dataARecords.getARecords
+        ? processRecords(dataARecords.getARecords, TEXT_PLACEHOLDER_RECORDS)
+        : processRecords([], []),
     textRecords:
       dataTextRecords && dataTextRecords.getTextRecords
         ? processRecords(
@@ -266,11 +285,11 @@ export default function Records({
         ? processRecords(dataAddresses.getAddresses, COIN_PLACEHOLDER_RECORDS)
         : processRecords([], COIN_PLACEHOLDER_RECORDS),
     content: isContentHashEmpty(domain.content) ? '' : domain.content,
-    loading: textRecordsLoading || addressesLoading
+    loading: isLoading
   }
 
   useEffect(() => {
-    if (textRecordsLoading === false && addressesLoading === false) {
+    if (!isLoading) {
       setUpdatedRecords(initialRecords)
     }
   }, [textRecordsLoading, addressesLoading, dataAddresses, dataTextRecords])

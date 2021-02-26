@@ -491,6 +491,14 @@ const resolvers = {
       )
       return Promise.all(textRecords)
     },
+    getARecords: async (_, { name, keys }) => {
+      const ens = getENS()
+      const aRecords = await ens.getARecords(name).then(addr => {
+        console.log('API get a record - ', name, addr, key)
+        return { key, value: addr }
+      })
+      return Promise.all(aRecords)
+    },
     waitBlockTimestamp: async (_, { waitUntil }) => {
       if (waitUntil) {
         let block = await getBlock()
@@ -598,6 +606,15 @@ const resolvers = {
       try {
         const ens = getENS()
         const tx = await ens.setText(name, key, recordValue)
+        return sendHelper(tx)
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    setARecord: async (_, { name, recordValue }, { cache }) => {
+      try {
+        const ens = getENS()
+        const tx = await ens.setARecord(name, recordValue)
         return sendHelper(tx)
       } catch (e) {
         console.log(e)

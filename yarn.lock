@@ -1465,9 +1465,9 @@
     lodash "^4.17.11"
     web3 "^1.3.0"
 
-"@ensdomains/ui@https://github.com/hnsfund/ui.git":
+"@ensdomains/ui@https://github.com/hnsfund/ui.git#add-dns":
   version "0.0.1"
-  resolved "https://github.com/hnsfund/ui.git#4e0ab78c8dab0d38777a14027e41247c6d4bd80e"
+  resolved "https://github.com/hnsfund/ui.git#f1bf0f72983c898cdfd1962382dd9e3630260807"
   dependencies:
     "@0xproject/utils" "^2.0.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"

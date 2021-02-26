@@ -31,6 +31,9 @@ import { ApolloProvider } from 'react-apollo'
 import { setupClient } from 'apolloClient'
 const errorHandler = new StackdriverErrorReporter()
 
+import { getNamehash } from '@ensdomains/ui'
+console.log('badass namehash', getNamehash('badass'))
+
 // If we are targeting an IPFS build we need to use HashRouter
 const Router =
   process.env.REACT_APP_IPFS === 'True' ? HashRouter : BrowserRouter

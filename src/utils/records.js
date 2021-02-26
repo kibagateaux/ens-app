@@ -23,6 +23,13 @@ export function validateRecord({ type, value, contentType, selectedKey }) {
       }
     case 'textRecords':
       return true
+    case 'aRecords':
+      // IP format x.x.x.x where x = 0-255
+      const ips = value && value.split('.')
+      const isFormatted =
+        ips.length === 4 &&
+        ips.reduce((allValid, ip) => allValid && 0 <= ip && ip <= 255, true)
+      return isFormatted
     case 'coins':
       if (value === '') return false
       if (selectedKey === 'ETH') {

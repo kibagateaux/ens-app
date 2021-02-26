@@ -144,6 +144,7 @@ const PendingTx = styled(DefaultPendingTx)`
 `
 
 function chooseMutation(recordType, contentType) {
+  console.log('choose mutation', recordType, contentType)
   switch (recordType) {
     case 'Content':
       if (contentType === 'oldcontent') {
@@ -429,6 +430,10 @@ const RecordItemEditable = ({
 function RecordItemViewOnly({ keyName, value, type, domain, account }) {
   const { name, contentType } = domain
   const { t } = useTranslation()
+  console.log(
+    'Record item View Only ',
+    keyName !== 'Address' && contentType === 'error'
+  )
   return keyName !== 'Address' && contentType === 'error' ? (
     ''
   ) : (

@@ -121,6 +121,12 @@ export const SET_TEXT = gql`
   }
 `
 
+export const SET_A_RECORD = gql`
+  mutation setARecord($name: String, $recordValue: String) {
+    setARecord(name: $name, recordValue: $recordValue) @client
+  }
+`
+
 export const SET_ADDR = gql`
   mutation setAddr($name: String, $key: String, $recordValue: String) {
     setAddr(name: $name, key: $key, recordValue: $recordValue) @client
